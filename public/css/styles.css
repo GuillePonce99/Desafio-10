@@ -213,6 +213,10 @@ h2 {
     margin: 0 auto;
 }
 
+
+
+.btn-decrease:hover,
+.btn-increase:hover,
 .btn-ptr input:hover,
 .btn_delete:hover,
 .btn_add:hover,
@@ -298,6 +302,14 @@ h2 {
     margin: auto;
     text-decoration: none;
     font-size: 15px;
+}
+
+.btn-addToCart,
+.btn-decrease,
+.btn-increase {
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
 }
 
 .btn-quantity {

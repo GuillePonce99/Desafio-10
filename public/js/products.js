@@ -1,7 +1,7 @@
 const btnAddCart = document.querySelectorAll(".btn-addToCart")
 const profile = document.getElementById("ul-profile")
 const actions = document.getElementById("actions")
-
+console.log();
 //Funcion que una vez generado el perfil, podre cerrar sesion mediante su respectivo boton
 const logOut = async () => {
 
@@ -69,14 +69,16 @@ const saludo = () => {
 
 //Funcion para obtener del LS el Id el carrito
 const getCartId = async () => {
+    if (profile.dataset.admin !== "true") {
+        console.log("entro");
+        const response = await fetch("/api/carts/user/cart")
 
-    const response = await fetch("/api/carts/user/cart")
-
-    if (response.ok) {
-        const data = await response.json()
-        return data
-    } else {
-        return false
+        if (response.ok) {
+            const data = await response.json()
+            return data
+        } else {
+            return false
+        }
     }
 }
 
@@ -292,10 +294,16 @@ if (actions) {
                 }
 
             }).showToast()
+            setTimeout(() => {
+                location.reload();
+            }, 3000)
         } else {
             const error = await response.json()
             console.log(error);
-            actionAdd.innerHTML = `${error.message}`
+            actionAdd.innerHTML = `${error.name}`
+            setTimeout(() => {
+                actionAdd.innerHTML = "";
+            }, 2000)
         }
 
     })
@@ -323,9 +331,16 @@ if (actions) {
                 }
 
             }).showToast()
+            setTimeout(() => {
+                location.reload();
+            }, 3000)
         } else {
             const error = await response.json()
-            actionDelete.innerHTML = `${error.message}`
+            console.log(error);
+            actionDelete.innerHTML = `${error.name}`
+            setTimeout(() => {
+                actionDelete.innerHTML = "";
+            }, 2000)
         }
     })
 

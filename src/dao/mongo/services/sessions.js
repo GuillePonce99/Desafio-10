@@ -20,14 +20,16 @@ export default class Sessions {
                 res.cookie("coderCookieToken", token, {
                     maxAge: 60 * 60 * 1000,
                     httpOnly: true
-                }).sendSuccess()
+                }).status(200).json({ message: "success" })
+            } else if (email === Config.ADMIN_EMAIL && password !== Config.ADMIN_PASSWORD) {
+                return res.status(401).json({ message: "Contraseña incorrecta!" })
             } else {
 
                 const user = await UserModel.findOne({ email })
                 if (user === null) {
-                    return res.sendUserError({ message: "Email incorrecto!" })
+                    return res.status(401).json({ message: "Email incorrecto!" })
                 } else if (!isValidPassword(password, user)) {
-                    return res.sendUserError({ message: "Contraseña incorrecta!" })
+                    return res.status(401).json({ message: "Contraseña incorrecta!" })
                 }
 
                 const token = generateToken({
@@ -42,7 +44,7 @@ export default class Sessions {
                 res.cookie("coderCookieToken", token, {
                     maxAge: 60 * 60 * 1000,
                     httpOnly: true
-                }).sendSuccess()
+                }).status(200).json({ message: "success" })
             }
 
         } catch (error) {
@@ -85,11 +87,11 @@ export default class Sessions {
                     message: "El email ingresado ya existe!",
                     code: EErrors.DATABASE_ERROR
                 })
-                //return res.sendUserError({ message: "El email ingresado ya existe!" })
+                //return res.status(401).json({ message: "El email ingresado ya existe!" })
             }
 
             if (user.age <= 0 || user.age >= 100) {
-                return res.sendUserError({ message: "Ingrese una edad correcta!" })
+                return res.status(401).json({ message: "Ingrese una edad correcta!" })
             }
 
             user.password = createHash(user.password)
@@ -112,7 +114,7 @@ export default class Sessions {
             const user = await UserModel.findOne({ email })
 
             if (!user) {
-                return res.sendUserError({ message: "Email incorrecto!" })
+                return res.status(401).json({ message: "Email incorrecto!" })
             }
 
             user.password = createHash(newPassword)

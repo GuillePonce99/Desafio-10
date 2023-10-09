@@ -1,4 +1,3 @@
-
 const btnSignup = document.getElementById("btn-signup");
 const btnLogin = document.getElementById("btn-login");
 const btnForgot = document.getElementById("btn-forgot")
@@ -19,7 +18,7 @@ const signup = async (firstName, lastName, age, email, password) => {
     } else {
         const data = await response.json()
         console.log(data);
-        return data.error.message
+        return data.message
     }
 }
 
@@ -38,7 +37,7 @@ const login = async (email, password) => {
         return true
     } else {
         const data = await response.json()
-        return data.error.message
+        return data.message
     }
 }
 
@@ -58,7 +57,7 @@ const forgot = async (email, newPassword) => {
         } else {
             const data = await response.json()
             console.log(data.error.message);
-            return data.error.message
+            return data.message
         }
 
     }
@@ -98,6 +97,7 @@ if (btnSignup) {
             setTimeout(() => {
                 window.location.href = `/`;
             }, 2000)
+
 
         } else {
             Toastify({
