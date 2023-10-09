@@ -52,7 +52,6 @@ app.use("/api/carts", routerCarts.getRouter())
 
 const routerProducts = new ProductsRouter()
 app.use("/api/products", routerProducts.getRouter())
-app.use(errorHandler)
 
 const routerViews = new ViewsRouter()
 app.use("/", routerViews.getRouter())
@@ -64,19 +63,10 @@ const routerTickets = new TicketsRouter()
 app.use("/api/tickets", routerTickets.getRouter())
 
 // MANEJO DE ERRORES
+app.use(errorHandler)
 
 //MOCKING
-
 app.get("/mockingproducts", mockingProduct)
-
-app.use(compression({ brotli: { enabled: true, zlib: {} } }))
-app.get("/pesado", async (req, res) => {
-    let string = "Hola coder, soy un string ridiculamente larga"
-    for (let i = 0; i < 1000000; i++) {
-        string += "Hola coder, soy un string ridiculamente larga";
-    }
-    res.send(string)
-})
 
 //RENDER PARA TODAS LAS PAGINAS QUE NO EXISTAN
 
